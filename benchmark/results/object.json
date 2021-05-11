@@ -1,0 +1,27 @@
+{
+  "name": "JSON vs. FastJSON (Object)",
+  "date": "2021-05-11T16:10:13.014Z",
+  "version": "1.0.0",
+  "results": [
+    {
+      "name": "FastJSON Stringify (object)",
+      "ops": 963211,
+      "margin": 11.64,
+      "percentSlower": 0
+    },
+    {
+      "name": "JSON Stringify (object)",
+      "ops": 565466,
+      "margin": 9.26,
+      "percentSlower": 41.29
+    }
+  ],
+  "fastest": {
+    "name": "FastJSON Stringify (object)",
+    "index": 0
+  },
+  "slowest": {
+    "name": "JSON Stringify (object)",
+    "index": 1
+  }
+}

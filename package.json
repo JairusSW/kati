@@ -1,0 +1,18 @@
+{
+  "name": "json",
+  "version": "1.0.0",
+  "description": "Very fast JSON serializer/deserializer",
+  "main": "index.js",
+  "author": "JairusSW",
+  "license": "MIT",
+  "dependencies": {
+    "benny": "^3.6.15",
+    "circular-json": "^0.3.3",
+    "flatted": "^3.1.1",
+    "is": "^3.3.0",
+    "json5": "^2.2.0",
+    "lodash": "^4.17.21",
+    "msgpack-lite": "^0.1.26",
+    "yaml": "^1.10.2"
+  }
+}
