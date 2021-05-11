@@ -4,9 +4,10 @@
 const fromString = (data) => {
 
     // Catch a bug.
-    if (data === `"` || data === `'` || data === '`') {
+    if (data.includes(`"`)) {
 
-        return `"\\${data}"`
+        // Need replaceAll. Figure this out later.
+        return `"${data.replace('"', '\\"')}"`
 
     }
 
@@ -37,7 +38,7 @@ const fromArray = (data) => {
 
     }
 
-    return `${result}}`
+    return `${result.substr(0, result.length - 1)}]`
     
 }
 
@@ -53,7 +54,7 @@ const fromObject = (data) => {
 
     }
 
-    return `${result}}`
+    return `${result.substr(0, result.length - 1)}}`
     
 }
 
@@ -93,7 +94,9 @@ const stringify = (data) => {
 
 // Test and compare!
 
-const a = '"'
+const a = ['haha', null, true, ['hey', {
+    key: 'value'
+}]]
 
 console.log('JS:\n', stringify(a))
 
