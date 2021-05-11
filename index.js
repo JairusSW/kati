@@ -1,11 +1,13 @@
 // TODO: Handle circular data
 
+// Precompile regular expressions
+const reQuote = /\"/g;
 // Much faster if functions are split up by types.
 const fromString = (data) => {
     // Catch a bug.
     if (data.includes(`"`)) {
         // Need replaceAll. Figure this out later.
-        return `"${data.replace(/\"/g, '\\"')}"`
+        return `"${data.replace(reQuote, '\\"')}"`
     }
     return `"${data}"`
 }
