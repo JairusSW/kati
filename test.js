@@ -1,4 +1,4 @@
-const kati = require('./index')
+const kati = require('kati')
 
 const a = ['haha', null, true, ['hey', {
     key: 'value',

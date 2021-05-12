@@ -1,4 +1,4 @@
-# Kati
+# Kati ⚡
 **Extremely fast JSON serializer and deserializer**
 
 ## Installation
