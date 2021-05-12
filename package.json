@@ -1,0 +1,14 @@
+{
+  "name": "kati",
+  "version": "1.0.0",
+  "description": "Very fast JSON serializer/deserializer",
+  "main": "index.js",
+  "author": "JairusSW",
+  "license": "MIT",
+  "devDependencies": {
+    "benny": "^3.6.15",
+    "flatted": "^3.1.1",
+    "json5": "^2.2.0",
+    "yaml": "^1.10.2"
+  }
+}
