@@ -10,12 +10,70 @@ const Json5 = require('json5')
 
 const examples = {
     string: 'HelloWorldFireTruck',
-    number: 1234567890.0987654321,
-    array: ['HelloWorldFireTruck', 1234567890.0987654321],
+    number: 134567890.098764321,
+    array: ['HelloWorldFireTruck', 0],
     object: {
         '0': 'HelloWorldFireTruck'
     }
 }
+
+b.suite(
+  'Kati vs. JSON (Array)',
+
+  b.add('Kati Serialize', () => {
+    Kati.stringify(examples.array)
+  }),
+
+  b.add('JSON Serialize', () => {
+    JSON.stringify(examples.array)
+  }),
+
+  b.add('Flatted Serialize', () => {
+    Flatted.stringify(examples.array)
+  }),
+
+  b.add('JSON5 Serialize', () => {
+    Json5.stringify(examples.array)
+  }),
+
+  b.add('YAML Serialize', () => {
+    Yaml.stringify(examples.array)
+  }),
+ 
+  b.cycle(),
+  b.complete(),
+  b.save({ file: 'array', version: '1.0.0' }),
+  b.save({ file: 'array', format: 'chart.html' }),
+)
+
+b.suite(
+  'Kati vs. JSON (Object)',
+
+  b.add('Kati Serialize', () => {
+    Kati.stringify(examples.object)
+  }),
+
+  b.add('JSON Serialize', () => {
+    JSON.stringify(examples.object)
+  }),
+
+  b.add('Flatted Serialize', () => {
+    Flatted.stringify(examples.object)
+  }),
+
+  b.add('JSON5 Serialize', () => {
+    Json5.stringify(examples.object)
+  }),
+
+  b.add('YAML Serialize', () => {
+    Yaml.stringify(examples.object)
+  }),
+
+  b.cycle(),
+  b.complete(),
+  b.save({ file: 'object', version: '1.0.0' }),
+  b.save({ file: 'object', format: 'chart.html' }),
+)
 
 b.suite(
   'Kati vs. JSON (String)',
@@ -39,7 +97,6 @@ b.suite(
   b.add('YAML Serialize', () => {
     Yaml.stringify(examples.string)
   }),
-
 
   b.cycle(),
   b.complete(),
@@ -70,129 +127,8 @@ b.suite(
       Yaml.stringify(examples.number)
     }),
   
-  
     b.cycle(),
     b.complete(),
     b.save({ file: 'number', version: '1.0.0' }),
     b.save({ file: 'number', format: 'chart.html' }),
-  )
-
-  b.suite(
-    'Kati vs. JSON (Null)',
-  
-    b.add('Kati Serialize', () => {
-      Kati.stringify(null)
-    }),
-  
-    b.add('JSON Serialize', () => {
-      JSON.stringify(null)
-    }),
-  
-    b.add('Flatted Serialize', () => {
-      Flatted.stringify(null)
-    }),
-  
-    b.add('JSON5 Serialize', () => {
-      Json5.stringify(null)
-    }),
-  
-    b.add('YAML Serialize', () => {
-      Yaml.stringify(null)
-    }),
-  
-  
-    b.cycle(),
-    b.complete(),
-    b.save({ file: 'null', version: '1.0.0' }),
-    b.save({ file: 'null', format: 'chart.html' }),
-  )
-
-  b.suite(
-    'Kati vs. JSON (Boolean)',
-  
-    b.add('Kati Serialize', () => {
-      Kati.stringify(true)
-    }),
-  
-    b.add('JSON Serialize', () => {
-      JSON.stringify(true)
-    }),
-  
-    b.add('Flatted Serialize', () => {
-      Flatted.stringify(true)
-    }),
-  
-    b.add('JSON5 Serialize', () => {
-      Json5.stringify(true)
-    }),
-  
-    b.add('YAML Serialize', () => {
-      Yaml.stringify(true)
-    }),
-  
-  
-    b.cycle(),
-    b.complete(),
-    b.save({ file: 'boolean', version: '1.0.0' }),
-    b.save({ file: 'boolean', format: 'chart.html' }),
-  )
-
-  b.suite(
-    'Kati vs. JSON (Array)',
-  
-    b.add('Kati Serialize', () => {
-      Kati.stringify(examples.array)
-    }),
-  
-    b.add('JSON Serialize', () => {
-      JSON.stringify(examples.array)
-    }),
-  
-    b.add('Flatted Serialize', () => {
-      Flatted.stringify(examples.array)
-    }),
-  
-    b.add('JSON5 Serialize', () => {
-      Json5.stringify(examples.array)
-    }),
-  
-    b.add('YAML Serialize', () => {
-      Yaml.stringify(examples.array)
-    }),
-  
-  
-    b.cycle(),
-    b.complete(),
-    b.save({ file: 'array', version: '1.0.0' }),
-    b.save({ file: 'array', format: 'chart.html' }),
-  )
-
-  b.suite(
-    'Kati vs. JSON (Object)',
-  
-    b.add('Kati Serialize', () => {
-      Kati.stringify(examples.object)
-    }),
-  
-    b.add('JSON Serialize', () => {
-      JSON.stringify(examples.object)
-    }),
-  
-    b.add('Flatted Serialize', () => {
-      Flatted.stringify(examples.object)
-    }),
-  
-    b.add('JSON5 Serialize', () => {
-      Json5.stringify(examples.object)
-    }),
-  
-    b.add('YAML Serialize', () => {
-      Yaml.stringify(examples.object)
-    }),
-  
-  
-    b.cycle(),
-    b.complete(),
-    b.save({ file: 'object', version: '1.0.0' }),
-    b.save({ file: 'object', format: 'chart.html' }),
   )

@@ -1,4 +1,4 @@
-const kati = require('kati')
+const kati = require('./')
 
 const a = ['haha', null, true, ['hey', {
     key: 'value',

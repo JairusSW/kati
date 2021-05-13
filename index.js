@@ -1,5 +1,7 @@
 // TODO: Handle circular data
 
+// Pre-alloc in memory. (faster)
+const nullVal = `null`
 // Precompile regular expressions
 const reQuote = /\"/g;
 // Much faster if functions are split up by types.
@@ -16,34 +18,32 @@ const fromNumber = (data) => {
     return `${data}`
 }
 
-const fromNull = () => {
-    return `null`
-}
-
 const fromArray = (data) => {
     let result = '['
-    let chunk
     const len = data.length - 1
     // Just loop through all the chunks and stringify them.
-    for (let i = 0; i <= data.length; i++) {
-        chunk = data[i]
-        if (i === len) return result += `${stringify(chunk)}]`
+    for (let i = 0; i < len; i++) {
+        const chunk = data[i]
         result += `${stringify(chunk)},`
     }
+    result += `${stringify(data[len])}]`
+
     return result
 }
 
 const fromObject = (data) => {
     let result = '{'
-    let keys = Object.keys(data)
+    const keys = Object.keys(data)
     const len = keys.length - 1
+    const lastKey = keys[len]
     // Just loop through all the keys and stringify them.
-    for (let i = 0; i <= keys.length; i++) {
+    for (let i = 0; i < len; i++) {
         const key = keys[i]
-        const value = data[key]
-        if (i === len) return result += `${stringify(key)}:${stringify(value)}}`
-        result += `${stringify(key)}:${stringify(value)},`
+        // Iterate through all but the last. (To keep the commas clean)
+        result += `${stringify(key)}:${stringify(data[key])},`
     }
+    result += `${stringify(lastKey)}:${stringify(data[lastKey])}}`
+
     return result
 }
 
@@ -57,12 +57,10 @@ const stringify = (data) => {
         result += fromArray(data)
     } else if (data === true || data === false) {
         result += data ? `true` : `false`
-    } else if (data == null) {
-        result += fromNull()
     } else if (data instanceof Object) {
         result += fromObject(data)
     } else {
-        return `null`
+        result += nullVal
     }
 
     return result
