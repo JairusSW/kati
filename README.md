@@ -53,12 +53,16 @@ console.log('Deserialized: ' + deserialized)
 
 **Serialize Array**
 
-![Array](https://cdn.discordapp.com/attachments/809147202470805555/842097163692933140/H4BojIFIvPeOAAAAAElFTkSuQmCC.png)
+![Array](https://cdn.discordapp.com/attachments/809147202470805555/842826806444556288/1aVwAAAABJRU5ErkJggg.png)
 
 **Serialize Object**
 
-![Object](https://cdn.discordapp.com/attachments/809147202470805555/842097497744998410/P2B05hncP9AAAAAElFTkSuQmCC.png)
+![Object](https://cdn.discordapp.com/attachments/809147202470805555/842827073672183808/MA0Kga64MzYAAAAASUVORK5CYII.png)
 
 **Serialize String**
 
-![String](https://cdn.discordapp.com/attachments/809147202470805555/842097619080970240/eK1QGGD6vugeQZZfzlV9Cledu8zdpB0bryWX2DsjiPVNFFbXn8m18FoVTiGAiPv4piAIQAACEIAABCAAAQjES4AAEq2zAwCEIAAB.png)
+![String](https://cdn.discordapp.com/attachments/809147202470805555/842826982856589333/wGMRlQn3PzgAwAAAABJRU5ErkJggg.png)
+
+**Serialize Number**
+
+![Number](https://cdn.discordapp.com/attachments/809147202470805555/842827340551684116/Z7qXkIKp3MEAAAAASUVORK5CYII.png)

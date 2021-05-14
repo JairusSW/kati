@@ -12,6 +12,7 @@ function isArrayish(obj) {
 	return obj instanceof Array || Array.isArray(obj) ||
 		(obj.length >= 0 && obj.splice instanceof Function);
 }
+
 // Woww! Added ~4,000,000 ops/s instead of Array.isArray!!! 🤑
 
 // Here we go... Performance first! (I like putting emotes in my code, haha!) 🔥
@@ -36,13 +37,14 @@ function fromNumber(data) {
 
 function fromArray(data) {
     let result = '['
-    const len = data.length - 1
     // Just loop through all the chunks and stringify them.
-    for (let i = 0; i < len; i++) {
-        const chunk = data[i]
+    const lastChunk = data.pop()
+    // Woww. For...of loop (with pop) made things four times faster!
+    for (const chunk of data) {
         result += `${stringify(chunk)},`
     }
-    result += `${stringify(data[len])}]`
+
+    result += `${stringify(lastChunk)}]`
 
     return result
 }
@@ -50,11 +52,9 @@ function fromArray(data) {
 function fromObject(data) {
     let result = '{'
     const keys = Object.keys(data)
-    const len = keys.length - 1
-    const lastKey = keys[len]
+    const lastKey = keys.pop()
     // Just loop through all the keys and stringify them.
-    for (let i = 0; i < len; i++) {
-        const key = keys[i]
+    for (const key of keys) {
         // Iterate through all but the last. (To keep the commas clean)
         result += `${stringify(key)}:${stringify(data[key])},`
     }

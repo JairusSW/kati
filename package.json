@@ -6,9 +6,11 @@
   "author": "JairusSW",
   "license": "MIT",
   "devDependencies": {
+    "benchmark": "^2.1.4",
     "benny": "^3.6.15",
     "fast-json-stable-stringify": "^2.1.0",
     "fast-json-stringify": "^2.7.3",
+    "flatstr": "^1.0.12",
     "flatted": "^3.1.1",
     "json-schema": "^0.2.3",
     "json3": "^3.3.3",

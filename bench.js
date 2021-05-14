@@ -11,8 +11,13 @@ const Json5 = require('json5')
 const examples = {
     string: 'HelloWorldFireTruck',
     number: 134567890.098764321,
-    array: ['HelloWorldFireTruck', 0],
-    object: { 0: 'HelloWorldFireTruck' }
+    array: ['firstName', 'Jairus', 'lastName', 'Tanaka', 'age', 14],
+    object: {
+      firstName: 'Jairus',
+      lastName: 'Tanaka',
+      age: 14
+    }
+    // I actually am 14, haha!
 }
 // NOTE: Tiny things, because its geared for small data packets in things such as WebSockets or Networking.
 b.suite(
