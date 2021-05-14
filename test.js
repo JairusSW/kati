@@ -1,11 +1,12 @@
 const kati = require('./')
 
-const a = ['haha', null, true, ['hey', {
-    key: 'value',
-    4: 1234,
-    6: false
-}]]
+const serialized = kati.stringify({
+    haha: 'mama',
+    gaga: [{a:['haha']}]
+})
 
-console.log('Kati:\n', kati.stringify(a))
+console.log('Serialized: ', serialized)
 
-console.log('JSON:\n', JSON.stringify(a))
+const deserialized = kati.parse(serialized)
+
+console.log('Deserialized: ', deserialized)

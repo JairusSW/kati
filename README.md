@@ -29,6 +29,26 @@ const deserialized = kati.parse(serialized)
 console.log('Deserialized: ' + deserialized)
 ```
 
+## Going faster
+
+You can serialize types seperately by using `stringify.from(Array/Object/String/Number/Null/Boolean)`
+
+```js
+const kati = require('kati')
+
+// fromObject is faster
+const serialized = kati.stringify.fromObject({
+    hello: 'world',
+    array: ['Hey!', 3.14]
+})
+
+console.log('Serialized: ' + stringified)
+
+const deserialized = kati.parse(serialized)
+
+console.log('Deserialized: ' + deserialized)
+```
+
 ## Benchmarks
 
 **Serialize Array**

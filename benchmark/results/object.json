@@ -1,37 +1,37 @@
 {
   "name": "Kati vs. JSON (Object)",
-  "date": "2021-05-13T14:31:18.234Z",
+  "date": "2021-05-14T15:38:46.357Z",
   "version": "1.0.0",
   "results": [
     {
       "name": "Kati Serialize",
-      "ops": 3590481,
-      "margin": 2.05,
+      "ops": 3231742,
+      "margin": 6.27,
       "percentSlower": 0
     },
     {
       "name": "JSON Serialize",
-      "ops": 1977988,
-      "margin": 0.86,
-      "percentSlower": 44.91
+      "ops": 1583180,
+      "margin": 12.15,
+      "percentSlower": 51.01
     },
     {
       "name": "Flatted Serialize",
-      "ops": 460301,
-      "margin": 0.84,
-      "percentSlower": 87.18
+      "ops": 288369,
+      "margin": 9.9,
+      "percentSlower": 91.08
     },
     {
       "name": "JSON5 Serialize",
-      "ops": 513727,
-      "margin": 0.55,
-      "percentSlower": 85.69
+      "ops": 352397,
+      "margin": 4.83,
+      "percentSlower": 89.1
     },
     {
       "name": "YAML Serialize",
-      "ops": 88548,
-      "margin": 8.11,
-      "percentSlower": 97.53
+      "ops": 62474,
+      "margin": 23.96,
+      "percentSlower": 98.07
     }
   ],
   "fastest": {

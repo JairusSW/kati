@@ -12,16 +12,14 @@ const examples = {
     string: 'HelloWorldFireTruck',
     number: 134567890.098764321,
     array: ['HelloWorldFireTruck', 0],
-    object: {
-        '0': 'HelloWorldFireTruck'
-    }
+    object: { 0: 'HelloWorldFireTruck' }
 }
-
+// NOTE: Tiny things, because its geared for small data packets in things such as WebSockets or Networking.
 b.suite(
   'Kati vs. JSON (Array)',
 
   b.add('Kati Serialize', () => {
-    Kati.stringify(examples.array)
+    Kati.stringify.fromArray(examples.array)
   }),
 
   b.add('JSON Serialize', () => {
@@ -50,7 +48,7 @@ b.suite(
   'Kati vs. JSON (Object)',
 
   b.add('Kati Serialize', () => {
-    Kati.stringify(examples.object)
+    Kati.stringify.fromObject(examples.object)
   }),
 
   b.add('JSON Serialize', () => {
@@ -79,7 +77,7 @@ b.suite(
   'Kati vs. JSON (String)',
 
   b.add('Kati Serialize', () => {
-    Kati.stringify(examples.string)
+    Kati.stringify.fromString(examples.string)
   }),
 
   b.add('JSON Serialize', () => {
@@ -108,7 +106,7 @@ b.suite(
     'Kati vs. JSON (Number)',
   
     b.add('Kati Serialize', () => {
-      Kati.stringify(examples.number)
+      Kati.stringify.fromNumber(examples.number)
     }),
   
     b.add('JSON Serialize', () => {
