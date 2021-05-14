@@ -11,6 +11,7 @@
 - Extremely fast 🔥
 - Works in the browser 🍻
 - Works with JSON 🚀
+- Much faster than fast-json-stringify (except object)
 
 ## Usage
 
@@ -53,16 +54,16 @@ console.log('Deserialized: ' + deserialized)
 
 **Serialize Array**
 
-![Array](https://cdn.discordapp.com/attachments/809147202470805555/842826806444556288/1aVwAAAABJRU5ErkJggg.png)
+![Array](https://cdn.discordapp.com/attachments/809588495425208320/842895724223922176/Zt0A6Pz5DJ3BTkPVNVFa3n8m18FsVTiGAqPv4piAIQAACEIAABCAAAQikS4AAkq62zAwCEIAABCAAAQhAAALqCBBA1ElCQRCAAAQ.png)
 
 **Serialize Object**
 
-![Object](https://cdn.discordapp.com/attachments/809147202470805555/842827073672183808/MA0Kga64MzYAAAAASUVORK5CYII.png)
+![Object](https://cdn.discordapp.com/attachments/809588495425208320/842896091276116019/KTeocqR0TX8AAAAASUVORK5CYII.png)
 
 **Serialize String**
 
-![String](https://cdn.discordapp.com/attachments/809147202470805555/842826982856589333/wGMRlQn3PzgAwAAAABJRU5ErkJggg.png)
+![String](https://cdn.discordapp.com/attachments/809588495425208320/842896048530915348/PKXfr1QK94gAAAABJRU5ErkJggg.png)
 
 **Serialize Number**
 
-![Number](https://cdn.discordapp.com/attachments/809147202470805555/842827340551684116/Z7qXkIKp3MEAAAAASUVORK5CYII.png)
+![Number](https://cdn.discordapp.com/attachments/809588495425208320/842895971121233920/wfRateBRDUwKgAAAABJRU5ErkJggg.png)
