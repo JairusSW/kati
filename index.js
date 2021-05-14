@@ -1,16 +1,18 @@
-// What is this? This is a JSON-like serializer that is both heavily optimized and hand-tuned.
-// It is made for simplicity and performance which means less overhead and less checks. 
-// Shoutout to me (lol) and a few contributors who offered performance improvements and features!
-// Anyways, have a great time exploring kati!
-// If you find a performance boost or a holdup in this code, PLEASE open up a pull request! 😉
+// Welcome to the source code!
+// You might ask 'What is kati'? Well, kati is a subset of JSON that trades off extra features (ex. Date Serialization) for insane performance.
+// How is it so fast? It is fast mostly because it is straight-forward, has almost no if-statementsss (in the type serializers), and has benches for everything.
+// How to contribute? If you have any performance improvements, please post a pull request (or contact me).
+// Btw, this was made by a kid! Haha! (Along with a a few performance tips from contributors) 😉
+// Its MIT, so feel free to make your own custom ports or transpile it to another language!
+// Have a great time exploring! (If ya have a Q, just contact me!)
 
 function isArrayish(obj) {
-	if (!obj) {
-		return false;
-	}
+    if (!obj) {
+        return false;
+    }
 
-	return obj instanceof Array || Array.isArray(obj) ||
-		(obj.length >= 0 && obj.splice instanceof Function);
+    return obj instanceof Array || Array.isArray(obj) ||
+        (obj.length >= 0 && obj.splice instanceof Function);
 }
 
 // Woww! Added ~4,000,000 ops/s instead of Array.isArray!!! 🤑
@@ -63,7 +65,7 @@ function fromObject(data) {
     return result
 }
 
-function stringify (data) {
+function stringify(data) {
     let result = ''
     if (typeof data === 'string') {
         result += fromString(data)
