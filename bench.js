@@ -4,8 +4,6 @@ const Kati = require('./')
 
 const Flatted = require('flatted')
 
-const Yaml = require('yaml')
-
 const Json5 = require('json5')
 
 const examples = {
@@ -19,7 +17,8 @@ const examples = {
     }
     // I actually am 14, haha!
 }
-// NOTE: Tiny things, because its geared for small data packets in things such as WebSockets or Networking.
+// NOTE: Tiny things, because its geared for small data packets in things such as WebSockets or Networking.\
+/*
 b.suite(
   'Kati vs. JSON (Array)',
 
@@ -38,17 +37,13 @@ b.suite(
   b.add('JSON5 Serialize', () => {
     Json5.stringify(examples.array)
   }),
-
-  b.add('YAML Serialize', () => {
-    Yaml.stringify(examples.array)
-  }),
  
   b.cycle(),
   b.complete(),
   b.save({ file: 'array', version: '1.0.0' }),
   b.save({ file: 'array', format: 'chart.html' }),
 )
-
+*/
 b.suite(
   'Kati vs. JSON (Object)',
 
@@ -68,16 +63,12 @@ b.suite(
     Json5.stringify(examples.object)
   }),
 
-  b.add('YAML Serialize', () => {
-    Yaml.stringify(examples.object)
-  }),
-
   b.cycle(),
   b.complete(),
   b.save({ file: 'object', version: '1.0.0' }),
   b.save({ file: 'object', format: 'chart.html' }),
 )
-
+/*
 b.suite(
   'Kati vs. JSON (String)',
 
@@ -95,10 +86,6 @@ b.suite(
 
   b.add('JSON5 Serialize', () => {
     Json5.stringify(examples.string)
-  }),
-
-  b.add('YAML Serialize', () => {
-    Yaml.stringify(examples.string)
   }),
 
   b.cycle(),
@@ -126,12 +113,8 @@ b.suite(
       Json5.stringify(examples.number)
     }),
   
-    b.add('YAML Serialize', () => {
-      Yaml.stringify(examples.number)
-    }),
-  
     b.cycle(),
     b.complete(),
     b.save({ file: 'number', version: '1.0.0' }),
     b.save({ file: 'number', format: 'chart.html' }),
-  )
+  )*/

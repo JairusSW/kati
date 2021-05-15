@@ -1,10 +1,18 @@
 // Welcome to the source code!
 // You might ask 'What is kati'? Well, kati is a subset of JSON that trades off extra features (ex. Date Serialization) for insane performance.
-// How is it so fast? It is fast mostly because it is straight-forward, has almost no if-statementsss (in the type serializers), and has benches for everything.
+// How is it so fast? It is fast mostly because it is straight-forward, allows almost no if-statementsss (in the type serializers), and has benches for everything.
 // How to contribute? If you have any performance improvements, please post a pull request (or contact me).
 // Btw, this was made by a kid! Haha! (Along with a a few performance tips from contributors) 😉
 // Its MIT, so feel free to make your own custom ports or transpile it to another language!
 // Have a great time exploring! (If ya have a Q, just contact me!)
+
+// TODO
+// - Port as-string-sink to JavaScript
+// - Add SIMD-like parser
+// - Make Kati the god of JSON
+// - Increase performance.
+// - Optimize for node/v8 version
+// - Test in browser (v8/mozilla)
 
 function isArrayish(obj) {
     if (!obj) {
@@ -42,12 +50,16 @@ function fromArray(data) {
     // Just loop through all the chunks and stringify them.
     const lastChunk = data.pop()
     // Woww. For...of loop (with pop) made things four times faster!
-    for (const chunk of data) {
+    let chunk
+    // Pre-compile chunk. Faster.
+    for (chunk of data) {
         result += `${stringify(chunk)},`
     }
 
     result += `${stringify(lastChunk)}]`
-
+    // += is (slightly) faster than array.push/join!
+    // For another language, there is a project called as-string-sink which provides string concat that is ~3,000x faster than JS.
+    // Wonder if it could be ported to JS...
     return result
 }
 
@@ -56,7 +68,8 @@ function fromObject(data) {
     const keys = Object.keys(data)
     const lastKey = keys.pop()
     // Just loop through all the keys and stringify them.
-    for (const key of keys) {
+    let key
+    for (key of keys) {
         // Iterate through all but the last. (To keep the commas clean)
         result += `${stringify(key)}:${stringify(data[key])},`
     }

@@ -1,6 +1,6 @@
 {
   "name": "kati",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "The God of all JSON. Extremely fast JSON serialize and deserialize.",
   "main": "index.js",
   "author": "JairusSW",
@@ -12,12 +12,14 @@
     "fast-json-stringify": "^2.7.3",
     "flatstr": "^1.0.12",
     "flatted": "^3.1.1",
+    "jest": "^26.6.3",
     "json-schema": "^0.2.3",
     "json3": "^3.3.3",
     "json5": "^2.2.0",
     "jsonify": "^0.0.0",
     "jsonparse": "^1.3.1",
     "messagepack": "^1.1.12",
+    "mocha": "^3.5.3",
     "msgpack-lite": "^0.1.26",
     "msgpack5": "^5.3.2",
     "parse-json": "^2.2.0",
@@ -31,7 +33,6 @@
     "Parse",
     "Fast",
     "Kati",
-    "Flatted",
     "Stringify"
   ]
 }
