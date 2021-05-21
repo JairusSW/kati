@@ -45,7 +45,12 @@ function fromNumber(data) {
     return `${data}`
 }
 
-function fromArray(data) {
+const fromArray = (data) => {
+    const len = data.length - 1
+    if( len === -1 ) {
+     return '[]'   
+    }
+    
     let result = '['
     // Just loop through all the chunks and stringify them.
     const lastChunk = data.pop()
@@ -63,9 +68,13 @@ function fromArray(data) {
     return result
 }
 
-function fromObject(data) {
-    let result = '{'
+const fromObject = (data) => {
     const keys = Object.keys(data)
+    const len = keys.length - 1
+    if (len === -1) {
+     return '{}'   
+    }
+    let result = '{'
     const lastKey = keys.pop()
     // Just loop through all the keys and stringify them.
     let key
