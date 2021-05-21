@@ -19,8 +19,12 @@ const fromNumber = (data) => {
 }
 
 const fromArray = (data) => {
-    let result = '['
     const len = data.length - 1
+    if( len === -1 ) {
+     return '[]'   
+    }
+    
+    let result = '['
     // Just loop through all the chunks and stringify them.
     for (let i = 0; i < len; i++) {
         const chunk = data[i]
@@ -32,9 +36,12 @@ const fromArray = (data) => {
 }
 
 const fromObject = (data) => {
-    let result = '{'
     const keys = Object.keys(data)
     const len = keys.length - 1
+    if( len === -1 ) {
+     return '{}'   
+    }
+    let result = '{'
     const lastKey = keys[len]
     // Just loop through all the keys and stringify them.
     for (let i = 0; i < len; i++) {
