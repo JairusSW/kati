@@ -11,7 +11,6 @@
 - Extremely fast 🔥
 - Works in the browser 🍻
 - Works with JSON 🚀
-- Much faster than fast-json-stringify (except object)
 
 ## Usage
 
