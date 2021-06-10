@@ -26,7 +26,9 @@
     "strip-json-comments": "^2.0.1",
     "yaml": "^1.10.2"
   },
-  "dependencies": {},
+  "dependencies": {
+    "reusify": "^1.0.4"
+  },
   "keywords": [
     "JSON",
     "Serialize",

@@ -3,32 +3,15 @@
 
 const kati = require('./')
 
-const serializedArray = kati.stringify(['firstName', 'Jairus', 'lastName', 'Tanaka', 'age', 14])
-
-console.log('Serialized Array: ', serializedArray)
-
-if (serializedArray !== '["firstName","Jairus","lastName","Tanaka","age",14]') throw new Error('Array Didn\'t Pass The Tests.')
-
-const serializedObject = kati.stringify({
+const encoded = kati.stringify({
     firstName: 'Jairus',
     lastName: 'Tanaka',
-    age: 14
+    age: 14,
+    nicknames: ['Churro', 'Burrito']
 })
 
-console.log('Serialized Object: ', serializedObject)
+console.log('Encoded: \n', encoded)
 
-if (serializedObject !== '{"firstName":"Jairus","lastName":"Tanaka","age":14}') throw new Error('Object Didn\'t Pass The Tests.')
+const decoded = kati.parse(encoded)
 
-const serializedString = kati.stringify('HelloWorldFireTrucksAirplanesHumveesAndCode.')
-
-console.log('Serialized String: ', serializedString)
-
-if (serializedString !== '"HelloWorldFireTrucksAirplanesHumveesAndCode."') throw new Error('String Didn\'t Pass The Tests.')
-
-const serializedNumber = kati.stringify(3.14598)
-
-console.log('Serialized Number: ', serializedNumber)
-
-if (serializedNumber !== '3.14598') throw new Error('Number Didn\'t Pass The Tests.')
-
-console.log('\nAll tests completed!')
+console.log('Decoded: \n', decoded)
