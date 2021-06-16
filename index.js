@@ -1,3 +1,5 @@
+const stripWhite = require('condense-whitespace')
+
 // Stringify function
 // Pre-alloc in memory. (faster)
 const nullVal = `null`;
@@ -19,7 +21,7 @@ function fromNumber(data) {
 
 const fromArray = (data) => {
   if (data.length === 0) {
-    return '[]'
+    return "[]";
   }
 
   let result = "[";
@@ -103,7 +105,7 @@ stringify.fromNull = (data) => {
 // Parse
 
 const toString = (data) => {
-  return data.substr(1, data.length - 2);
+  return data.slice(1, data.length - 1);
 };
 
 const toNumber = (data) => {
@@ -118,17 +120,35 @@ const toBoolean = (data) => {
 // ["haha","baba",3.14]
 
 const toArray = (data) => {
+  console.log('Data: ', data);
+  let pos = 0;
+  // 0 = Normal
+  // 1 = Subarray
   const result = [];
-  let lastPos = 1;
+  let lastPos = 0;
+  let depth = 0;
+  let foundDepth = 0;
   let chunk;
   for (let i = 0; i < data.length; i++) {
     chunk = data[i];
-    if (chunk === ",") {
-      result.push(parse(data.slice(lastPos, i)));
-      lastPos = i + 1;
+    if (chunk === "[") depth++
+    if (chunk === "]") foundDepth++;
+    if (pos === 0 && chunk === "[") {
+      pos = 1;
+      lastPos = i;
+    } else if (pos === 1 && chunk === "]") {
+      if (foundDepth < depth) pos = 1;
+      if (foundDepth === depth) {
+        console.log("Got an array!", data.slice(lastPos, i+1));
+        result.push(parse(data.slice(lastPos, i+1)))
+        pos = 0;
+      }
+    } else if (chunk === "," && pos === 0) {
+      console.log('General Chunk: ', data.slice(lastPos, i))
+      result.push(parse(data.slice(lastPos, i)))
+      lastPos = i+1
     }
   }
-  result.push(parse(data.slice(lastPos, data.length - 1)));
   return result;
 };
 
@@ -136,7 +156,7 @@ const toArray = (data) => {
 
 const toObject = (data) => {
   const result = {};
-  const arr = data.substr(1, data.length - 2);
+  const arr = data.slice(1, data.length - 1);
   let pos = 0;
   // 0 = start
   // 1 = key
@@ -159,13 +179,14 @@ const toObject = (data) => {
 };
 
 function parse(data) {
+  data = stripWhite(data)
   const first = data[0];
   if (first === '"') {
     return toString(data);
   } else if (first === "[") {
-    return toArray(data);
+    return JSON.parse(data)//toArray(data.slice(1, data.length - 1));
   } else if (first === "{") {
-    return toObject(data);
+    return JSON.parse(data)//toObject(data);
   } else if (data === "true" || data === "false") {
     return toBoolean(data);
   } else if (data === "null") {
@@ -185,7 +206,19 @@ parse.toBoolean = toBoolean;
 
 parse.toNumber = toNumber;
 
+console.log(parse(` "haha"  `));
+
+console.log(parse(`["haha",["haha","lol"]]`));
+
+console.log(parse(`{"hello":{"world":"answer"}}`));
+
+console.log(parse(`   true  `));
+
+console.log(parse(` null`));
+
+console.log(parse(`   3.14   `));
+
 module.exports = {
   stringify: stringify,
-  parse: parse,
+  parse: JSON.parse,
 };

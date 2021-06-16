@@ -1,6 +1,6 @@
 {
   "name": "kati",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "The God of all JSON. Extremely fast JSON serialize and deserialize.",
   "main": "index.js",
   "author": "JairusSW",
@@ -27,7 +27,9 @@
     "tape": "^5.2.2",
     "yaml": "^1.10.2"
   },
-  "dependencies": {},
+  "dependencies": {
+    "condense-whitespace": "^2.0.0"
+  },
   "keywords": [
     "JSON",
     "Serialize",
