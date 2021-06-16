@@ -142,6 +142,7 @@ const toArray = (data) => {
         console.log("Got an array!", data.slice(lastPos, i+1));
         result.push(parse(data.slice(lastPos, i+1)))
         pos = 0;
+        lastPos = i+1
       }
     } else if (chunk === "," && pos === 0) {
       console.log('General Chunk: ', data.slice(lastPos, i))
@@ -149,6 +150,8 @@ const toArray = (data) => {
       lastPos = i+1
     }
   }
+  const trailingChunk = data.slice(lastPos, data.length)
+  if (trailingChunk) result.push(parse(trailingChunk))
   return result;
 };
 
@@ -184,7 +187,7 @@ function parse(data) {
   if (first === '"') {
     return toString(data);
   } else if (first === "[") {
-    return JSON.parse(data)//toArray(data.slice(1, data.length - 1));
+    return toArray(data.slice(1, data.length - 1));
   } else if (first === "{") {
     return JSON.parse(data)//toObject(data);
   } else if (data === "true" || data === "false") {
@@ -208,9 +211,9 @@ parse.toNumber = toNumber;
 
 console.log(parse(` "haha"  `));
 
-console.log(parse(`["haha",["haha","lol"]]`));
+console.log(parse(`["haha",true,3.14]`));
 
-console.log(parse(`{"hello":{"world":"answer"}}`));
+console.log(parse(`{"hello":{"world":"answer","lol":{"lolz":"haha","hoho":{"HEH":"HOOO"}}},"ha":"heh"}`));
 
 console.log(parse(`   true  `));
 
