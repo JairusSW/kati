@@ -186,18 +186,6 @@ parse.toBoolean = toBoolean;
 
 parse.toNumber = toNumber;
 
-console.log(parse(`"haha"`));
-
-console.log(parse(`["haha","baba",3.14]`));
-
-console.log(parse(`{"hello":"world","answer":42,"haha":"baba"}`));
-
-console.log(parse(`true`));
-
-console.log(parse(`null`));
-
-console.log(parse(`3.14`));
-
 module.exports = {
   stringify: stringify,
   parse: parse,
