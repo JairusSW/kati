@@ -1,6 +1,6 @@
 {
   "name": "kati",
-  "version": "0.1.8",
+  "version": "0.2.1",
   "description": "The God of all JSON. Extremely fast JSON serialize and deserialize.",
   "main": "index.js",
   "author": "JairusSW",
@@ -24,11 +24,10 @@
     "msgpack5": "^5.3.2",
     "parse-json": "^2.2.0",
     "strip-json-comments": "^2.0.1",
+    "tape": "^5.2.2",
     "yaml": "^1.10.2"
   },
-  "dependencies": {
-    "reusify": "^1.0.4"
-  },
+  "dependencies": {},
   "keywords": [
     "JSON",
     "Serialize",

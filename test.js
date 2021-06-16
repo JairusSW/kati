@@ -3,12 +3,7 @@
 
 const kati = require('./')
 
-const encoded = kati.stringify({
-    firstName: 'Jairus',
-    lastName: 'Tanaka',
-    age: 14,
-    nicknames: ['Churro', 'Burrito']
-})
+const encoded = kati.stringify(['haha', 'baba'])
 
 console.log('Encoded: \n', encoded)
 
