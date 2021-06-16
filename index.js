@@ -18,9 +18,9 @@ function fromNumber(data) {
 }
 
 const fromArray = (data) => {
-  /*if (data.length === 0) {
+  if (data.length === 0) {
     return '[]'
-  }*/
+  }
 
   let result = "[";
   // Just loop through all the chunks and stringify them.
@@ -160,7 +160,6 @@ const toObject = (data) => {
 
 function parse(data) {
   const first = data[0];
-  const last = data[data.length - 1];
   if (first === '"') {
     return toString(data);
   } else if (first === "[") {
