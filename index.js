@@ -187,7 +187,7 @@ function parse(data) {
   if (first === '"') {
     return toString(data);
   } else if (first === "[") {
-    return toArray(data.slice(1, data.length - 1));
+    return JSON.parse(data)//toArray(data.slice(1, data.length - 1));
   } else if (first === "{") {
     return JSON.parse(data)//toObject(data);
   } else if (data === "true" || data === "false") {
@@ -201,25 +201,13 @@ function parse(data) {
 
 parse.toString = toString;
 
-parse.toArray = toArray;
+parse.toArray = JSON.parse;
 
-parse.toObject = toObject;
+parse.toObject = JSON.parse;
 
 parse.toBoolean = toBoolean;
 
 parse.toNumber = toNumber;
-
-console.log(parse(` "haha"  `));
-
-console.log(parse(`["haha",true,3.14]`));
-
-console.log(parse(`{"hello":{"world":"answer","lol":{"lolz":"haha","hoho":{"HEH":"HOOO"}}},"ha":"heh"}`));
-
-console.log(parse(`   true  `));
-
-console.log(parse(` null`));
-
-console.log(parse(`   3.14   `));
 
 module.exports = {
   stringify: stringify,
