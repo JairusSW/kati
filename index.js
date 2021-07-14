@@ -1,16 +1,14 @@
 const stripWhite = require('condense-whitespace')
 
-// Stringify function
-// Pre-alloc in memory. (faster)
 const nullVal = `null`;
-// Precompile regular expressions
-const reQuote = /\"/g;
-// Much faster if functions are split up by types.
+
+const quoteToEscapedRegex = /\"/g;
+
+const escapedToQuoteRegex = /\\"/g;
+
 function fromString(data) {
-  // Catch a bug.
   if (data.includes(`"`)) {
-    // Need replaceAll. Figure this out later.
-    return `"${data.replace(reQuote, '\\"')}"`;
+    return `"${data.replace(quoteToEscapedRegex, '\\"')}"`;
   }
   return `"${data}"`;
 }
@@ -25,18 +23,15 @@ const fromArray = (data) => {
   }
 
   let result = "[";
-  // Just loop through all the chunks and stringify them.
-  const lastChunk = data.pop();
-  // Woww. For...of loop (with pop) made things four times faster!
+  const lastChunk = data[data.length - 1];
   let chunk;
   let i = 0;
-  for (; i < data.length; i++) {
+  for (; i < data.length - 1; i++) {
     chunk = data[i];
     result += `${stringify(chunk)},`;
   }
 
   result += `${stringify(lastChunk)}]`;
-  // += is (slightly) faster than array.push/join!
   return result;
 };
 
@@ -46,11 +41,10 @@ const fromObject = (data) => {
     return "{}";
   }
   let result = "{";
-  const lastKey = keys.pop();
-  // Just loop through all the keys and stringify them.
+  const lastKey = keys[keys.length - 1];
   let key;
-  for (key of keys) {
-    // Iterate through all but the last. (To keep the commas clean)
+  for (let i = 0; i < keys.length - 1; i++) {
+    key = keys[i]
     result += `${stringify(key)}:${stringify(data[key])},`;
   }
   result += `${stringify(lastKey)}:${stringify(data[lastKey])}}`;
@@ -86,26 +80,10 @@ function isArrayish(obj) {
   );
 }
 
-stringify.fromObject = fromObject;
-
-stringify.fromArray = fromArray;
-
-stringify.fromNumber = fromNumber;
-
-stringify.fromString = fromString;
-
-stringify.fromBoolean = (data) => {
-  return data ? `true` : `false`;
-};
-
-stringify.fromNull = (data) => {
-  return nullVal;
-};
-
 // Parse
 
 const toString = (data) => {
-  return data.slice(1, data.length - 1);
+  return data.slice(1, data.length - 1).replace(escapedToQuoteRegex, '"');
 };
 
 const toNumber = (data) => {
@@ -113,14 +91,12 @@ const toNumber = (data) => {
 };
 
 const toBoolean = (data) => {
-  if (data === "true") return true;
+  if (data[0] == "t") return true;
   return false;
 };
 
-// ["haha","baba",3.14]
-
 const toArray = (data) => {
-  console.log('Data: ', data);
+  console.log("Data: ", data);
   let pos = 0;
   // 0 = Normal
   // 1 = Subarray
@@ -131,27 +107,32 @@ const toArray = (data) => {
   let chunk;
   for (let i = 0; i < data.length; i++) {
     chunk = data[i];
-    if (chunk === "[") depth++
+    if (chunk === "[") depth++;
     if (chunk === "]") foundDepth++;
     if (pos === 0 && chunk === "[") {
       pos = 1;
       lastPos = i;
-    } else if (pos === 1 && chunk === "]") {
-      if (foundDepth < depth) pos = 1;
+    }
+    if (pos === 1 && chunk === "]") {
       if (foundDepth === depth) {
-        console.log("Got an array!", data.slice(lastPos, i+1));
-        result.push(parse(data.slice(lastPos, i+1)))
+        console.log("Got an array!", data.slice(lastPos, i + 1));
+        result.push(parse(data.slice(lastPos, i + 1)));
         pos = 0;
-        lastPos = i+1
+        lastPos = i + 2;
       }
-    } else if (chunk === "," && pos === 0) {
-      console.log('General Chunk: ', data.slice(lastPos, i))
-      result.push(parse(data.slice(lastPos, i)))
-      lastPos = i+1
+    }
+    if (chunk === "," && pos === 0) {
+      const a = data.slice(lastPos, i)
+      if (a) {
+        console.log("General Chunk: ", data.slice(lastPos, i));
+        result.push(parse(a));
+        lastPos = i + 1;
+      }
     }
   }
-  const trailingChunk = data.slice(lastPos, data.length)
-  if (trailingChunk) result.push(parse(trailingChunk))
+  const trailingChunk = data.slice(lastPos, data.length);
+  console.log('Trailing: ', trailingChunk)
+  if (trailingChunk) result.push(parse(trailingChunk));
   return result;
 };
 
@@ -182,12 +163,11 @@ const toObject = (data) => {
 };
 
 function parse(data) {
-  data = stripWhite(data)
   const first = data[0];
   if (first === '"') {
     return toString(data);
   } else if (first === "[") {
-    return JSON.parse(data)//toArray(data.slice(1, data.length - 1));
+    return toArray(data.slice(1, data.length - 1));
   } else if (first === "{") {
     return JSON.parse(data)//toObject(data);
   } else if (data === "true" || data === "false") {
@@ -198,16 +178,6 @@ function parse(data) {
     return toNumber(data);
   }
 }
-
-parse.toString = toString;
-
-parse.toArray = JSON.parse;
-
-parse.toObject = JSON.parse;
-
-parse.toBoolean = toBoolean;
-
-parse.toNumber = toNumber;
 
 module.exports = {
   stringify: stringify,

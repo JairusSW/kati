@@ -32,7 +32,7 @@ b.suite(
   }),*/
 
   b.add("Kati Parse", () => {
-    Kati.parse.toArray(arr);
+    Kati.parse(arr);
   }),
 
   b.add("JSON Parse", () => {
@@ -44,44 +44,42 @@ b.suite(
   b.save({ file: "array", format: "chart.html" })
 ),
 
-b.suite(
-  "Kati vs. JSON (Object)",
-  /*
-  b.add('Kati Serialize', () => {
-    Kati.stringify.fromObject(object)
-  }),
+  b.suite(
+    "Kati vs. JSON (Object)",
+    b.add('Kati Serialize', () => {
+      Kati.stringify(object)
+    }),
 
-  b.add('JSON Serialize', () => {
-    JSON.stringify(object)
-  }),
-*/
-  b.add("Kati Parse", () => {
-    Kati.parse.toObject(obj);
-  }),
+    b.add('JSON Serialize', () => {
+      JSON.stringify(object)
+    }),
+    b.add("Kati Parse", () => {
+      Kati.parse(obj);
+    }),
 
-  b.add("JSON Parse", () => {
-    JSON.parse(obj);
-  }),
-  
-  b.cycle(),
-  b.complete(),
-  b.save({ file: "object", version: "1.0.0" }),
-  b.save({ file: "object", format: "chart.html" })
-),
+    b.add("JSON Parse", () => {
+      JSON.parse(obj);
+    }),
+
+    b.cycle(),
+    b.complete(),
+    b.save({ file: "object", version: "1.0.0" }),
+    b.save({ file: "object", format: "chart.html" })
+  ),
 
   b.suite(
     "Kati vs. JSON (String)",
 
-    /*b.add('Kati Serialize', () => {
-    Kati.stringify.fromString(string)
-  }),
+    b.add('Kati Serialize', () => {
+      Kati.stringify(string)
+    }),
 
-  b.add('JSON Serialize', () => {
-    JSON.stringify(string)
-  }),*/
+    b.add('JSON Serialize', () => {
+      JSON.stringify(string)
+    }),
 
     b.add("Kati Parse", () => {
-      Kati.parse.toString(str);
+      Kati.parse(str);
     }),
 
     b.add("JSON Parse", () => {
@@ -97,16 +95,16 @@ b.suite(
   b.suite(
     "Kati vs. JSON (Number)",
 
-    /*b.add('Kati Serialize', () => {
-      Kati.stringify.fromNumber(number)
+    b.add('Kati Serialize', () => {
+      Kati.stringify(number)
     }),
-  
+
     b.add('JSON Serialize', () => {
       JSON.stringify(number)
-    }),*/
+    }),
 
     b.add("Kati Parse", () => {
-      Kati.parse.toNumber(num);
+      Kati.parse(num);
     }),
 
     b.add("JSON Parse", () => {
