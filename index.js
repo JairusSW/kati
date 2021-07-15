@@ -1,6 +1,8 @@
-const stripWhite = require('condense-whitespace')
-
 const nullVal = `null`;
+
+const rbracket = `]`
+
+const comma = `,`
 
 const quoteToEscapedRegex = /\"/g;
 
@@ -12,7 +14,6 @@ function fromString(data) {
   }
   return `"${data}"`;
 }
-
 function fromNumber(data) {
   return `${data}`;
 }
@@ -23,31 +24,30 @@ const fromArray = (data) => {
   }
 
   let result = "[";
-  const lastChunk = data[data.length - 1];
+  const lastChunk = data[(data.length - 1) | 0];
   let chunk;
   let i = 0 | 0;
   for (; i < (data.length - 1) | 0; i++) {
     chunk = data[i];
-    result += `${stringify(chunk)},`;
+    result += stringify(chunk) + comma;
   }
-
-  result += `${stringify(lastChunk)}]`;
+  result += stringify(lastChunk) + rbracket;
   return result;
 };
 
 const fromObject = (data) => {
   const keys = Object.keys(data);
-  if (keys.length | 0 === 0 | 0) {
+  if (keys.length === 0) {
     return "{}";
   }
   let result = "{";
-  const lastKey = keys[(keys.length - 1) | 0];
+  const lastKey = keys[(keys.length - 1)|0 ];
   let key;
-  for (let i = 0 | 0; i < (keys.length - 1) | 0; i++) {
-    key = keys[i]
-    result += `${stringify(key)}:${stringify(data[key])},`;
+  for (let i = 0 | 0; i < (keys.length - 1)|0 ; i++) {
+    key = keys[i | 0]
+    result += (Number.isFinite(key) ? fromNumber(key) : fromString(key)) + ":" + stringify(data[key]) + ",";
   }
-  result += `${stringify(lastKey)}:${stringify(data[lastKey])}}`;
+  result += (Number.isFinite(lastKey) ? fromNumber(lastKey) : fromString(lastKey)) + ":" + stringify(data[lastKey]) + "}";
 
   return result;
 };
@@ -83,7 +83,7 @@ function isArrayish(obj) {
 // Parse
 
 const toString = (data) => {
-  return data.slice(1 | 0, (data.length - 1) | 0).trim().replace(escapedToQuoteRegex, '"');
+  return data.slice(1 | 0, (data.length - 1) | 0).replace(escapedToQuoteRegex, '"');
 };
 
 const toNumber = (data) => {
@@ -159,12 +159,12 @@ const toObject = (data) => {
 };
 
 function parse(data) {
-  data = removeJSONWhitespace(data)
+  //data = removeJSONWhitespace(data)
   const first = data[0];
   if (first === '"') {
     return toString(data);
   } else if (first === "[") {
-    return toArray(data.slice(1, data.length - 1));
+    return JSON.parse(data)//toArray(data.slice(1, data.length - 1));
   } else if (first === "{") {
     return JSON.parse(data)//toObject(data);
   } else if (data === "true" || data === "false") {
@@ -195,5 +195,5 @@ function removeJSONWhitespace(data) {
 
 module.exports = {
   stringify: stringify,
-  parse: JSON.parse,
+  parse: parse//JSON.parse,
 };

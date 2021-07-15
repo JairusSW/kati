@@ -7,7 +7,7 @@ const num = 3.14
 const bool = true
 
 const arr = ["Hello", "Dinosaur", { type: 'sauropod' }, [3.14, ["Dinosaurs", ["Are", "Awesome"]], "🦕"]]
-
+  
 const obj = {
   hello: 'world',
   haha: arr,
