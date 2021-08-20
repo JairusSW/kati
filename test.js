@@ -6,31 +6,36 @@ const num = 3.14
 
 const bool = true
 
-const arr = ["Hello", "Dinosaur", { type: 'sauropod' }, [3.14, ["Dinosaurs", ["Are", "Awesome"]], "🦕"]]
-  
+const arr = [
+  'Hello',
+  'Dinosaur',
+  { type: 'sauropod' },
+  [3.14, ['Dinosaurs', ['Are', 'Awesome']], '🦕'],
+]
+
 const obj = {
   hello: 'world',
-  haha: arr,
-  ho: num,
-  boo: bool
+  haha: 'baba',
+  hoho: ['ha!', 'hoo', ['heh', 'rar'], arr],
+  ha: 'ba',
 }
 
 console.log(`Encode String: `, kati.stringify(str))
 
-console.log(`Decode String: `, kati.parse(`"Hello World \"_\""`))
+console.log(`Decode String: `, kati.parse(kati.stringify(str)))
 
 console.log(`Encode Number: `, kati.stringify(num))
 
-console.log(`Decode Number: `, kati.parse(`3.14`))
+console.log(`Decode Number: `, kati.parse(kati.stringify(num)))
 
 console.log(`Encode Boolean `, kati.stringify(bool))
 
-console.log(`Decode Boolean `, kati.parse(`true`))
+console.log(`Decode Boolean `, kati.parse(kati.stringify(bool)))
 
 console.log(`Encode Array `, kati.stringify(arr))
 
-console.log(`Decode Array `, kati.parse(`["Hello","Dinosaur",{"type":"sauropod"},[3.14,["Dinosaurs",["Are","Awesome"]],"🦕"]]`))
+console.log(`Decode Array `, kati.stringify(kati.parse(kati.stringify(arr))))
 
 console.log(`Encode Object `, kati.stringify(obj))
 
-console.log(`Decode Object `, kati.parse(kati.stringify(obj)))
+console.log(`Decode Object `, kati.stringify(kati.parse(kati.stringify(obj))))

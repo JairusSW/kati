@@ -1,199 +1,219 @@
-const nullVal = `null`;
-
-const rbracket = `]`
-
-const comma = `,`
-
-const quoteToEscapedRegex = /\"/g;
-
-const escapedToQuoteRegex = /\\"/g;
+const quote = '"'
+const lbracket = '['
+const rbracket = ']'
+const rcbracket = '}'
+const lcbracket = '{'
+const trueVal = 'true'
+const comma = ','
+const falseVal = 'false'
+const nullVal = 'null'
+const escapeQuote = '\\"'
+const quoteToEscapedRegex = /\"/g
+const quoteCode = '"'.charCodeAt(0) | 0
+const commaCode = ','.charCodeAt(0) | 0
+const rbracketCode = ']'.charCodeAt(0) | 0
+const lbracketCode = '['.charCodeAt(0) | 0
+const rcbracketCode = '}'.charCodeAt(0)
+const lcbracketCode = '{'.charCodeAt(0) | 0
+const colonCode = ':'.charCodeAt(0) | 0
+const fwd_slashCode = '/'.charCodeAt(0) | 0
+const t_charCode = 't'.charCodeAt(0) | 0
+const f_charCode = 't'.charCodeAt(0) | 0
+const nCode = 'n'.charCodeAt(0) | 0
+const WS1code = ' '.charCodeAt(0) | 0
+const WS2code = '\u0020'.charCodeAt(0) | 0
+const WS3code = '\u000A'.charCodeAt(0) | 0
+const WS4code = '\u000D'.charCodeAt(0) | 0
+const WS5code = '\u0009'.charCodeAt(0) | 0
 
 function fromString(data) {
   if (data.includes(`"`)) {
-    return `"${data.replace(quoteToEscapedRegex, '\\"')}"`;
+    return `"${data.replace(quoteToEscapedRegex, '\\"')}"`
   }
-  return `"${data}"`;
+  return `"${data}"`
 }
+
 function fromNumber(data) {
-  return `${data}`;
+  return `${data}`
 }
 
-const fromArray = (data) => {
-  if (data.length === 0) {
-    return "[]";
+function fromArray(data) {
+  const len = (data.length - 1) | 0
+  if (len === -1) {
+    return '[]'
   }
-
-  let result = "[";
-  const lastChunk = data[(data.length - 1) | 0];
-  let chunk;
-  let i = 0 | 0;
-  for (; i < (data.length - 1) | 0; i++) {
-    chunk = data[i];
-    result += stringify(chunk) + comma;
+  let result = '['
+  const lastChunk = data[len | 0]
+  for (let i = 0 | 0; i < (len | 0); i++) {
+    result += stringify(data[i | 0]) + comma
   }
-  result += stringify(lastChunk) + rbracket;
-  return result;
-};
+  result += stringify(lastChunk) + rbracket
+  return result
+}
 
-const fromObject = (data) => {
-  const keys = Object.keys(data);
+function fromObject(data) {
+  const keys = Object.keys(data)
   if (keys.length === 0) {
-    return "{}";
+    return '{}'
   }
-  let result = "{";
-  const lastKey = keys[(keys.length - 1)|0 ];
-  let key;
-  for (let i = 0 | 0; i < (keys.length - 1)|0 ; i++) {
+  let result = '{'
+  const lastKey = keys[(keys.length - 1) | 0]
+  let key
+  for (let i = 0 | 0; (i < keys.length - 1) | 0; i++) {
     key = keys[i | 0]
-    result += (Number.isFinite(key) ? fromNumber(key) : fromString(key)) + ":" + stringify(data[key]) + ",";
+    result += fromString(key) + ':' + stringify(data[key]) + ','
   }
-  result += (Number.isFinite(lastKey) ? fromNumber(lastKey) : fromString(lastKey)) + ":" + stringify(data[lastKey]) + "}";
-
-  return result;
-};
+  result += fromString(lastKey) + ':' + stringify(data[lastKey]) + '}'
+  return result
+}
 
 function stringify(data) {
-  if (typeof data === "string") {
-    return fromString(data);
+  if (typeof data === 'string') {
+    return fromString(data)
   } else if (Number.isFinite(data)) {
-    return fromNumber(data);
+    return fromNumber(data)
   } else if (isArrayish(data)) {
-    return fromArray(data);
+    return fromArray(data)
   } else if (data instanceof Object) {
-    return fromObject(data);
+    return fromObject(data)
   } else if (data === true || data === false) {
-    return data ? `true` : `false`;
+    return data ? `true` : `false`
   } else {
-    return nullVal;
+    return nullVal
   }
 }
 
 function isArrayish(obj) {
   if (!obj) {
-    return false;
+    return false
   }
-
   return (
     obj instanceof Array ||
     Array.isArray(obj) ||
-    ((obj.length) | 0 >= 0 | 0 && obj.splice instanceof Function)
-  );
+    (obj.length | (0 >= 0) | 0 && obj.splice instanceof Function)
+  )
 }
 
 // Parse
 
-const toString = (data) => {
-  return data.slice(1 | 0, (data.length - 1) | 0).replace(escapedToQuoteRegex, '"');
-};
-
-const toNumber = (data) => {
-  return data * 1;
-};
-
-const toBoolean = (data) => {
-  if (data[0 | 0] == "t") return true;
-  return false;
-};
-
-const toArray = (data) => {
-  let result = []
-  let lastPos = -1 | 0;
-  let char;
-  let depth = 0 | 0;
-  let fdepth = 0 | 0;
-  let instr = false;
-  for (let i = 0 | 0; i < (data.length - 1) | 0; i++) {
-    char = data[i];
-    // This ignores [ and ] if they are inside a string.
-    if (data[(i - 1) | 0] != "\\" && char == "\"")
-      instr = (instr ? false : true);
-    // This gets the depth of the array/object
-    if (instr === false && (char === "[" || char === "{")) depth++;
-    if (instr === false && (char === "]" || char === "}")) fdepth++;
-    // If the depth and found depth are equal, that is an array. Push it.
-    if (instr === false && depth > 0 && depth === fdepth) {
-      result.push(parse(data.slice((lastPos + 1) | 0, (i + 1) | 0)))
-      // Reset the depth
-      depth = 0 | 0;
-      fdepth = 0 | 0;
-      // Set new lastPos
-      i++
-      lastPos = i | 0;
-    }
-    if (instr === false && char === "," && depth === 0) {
-      if (data.slice((lastPos + 1) | 0, (i) | 0) != null) result.push(parse(data.slice((lastPos + 1) | 0, i | 0)));
-      lastPos = i | 0;
-    }
-  }
-
-  const trailingChunk = data.slice((lastPos + 1) | 0, data.length | 0)
-  if (trailingChunk != null) result.push(parse(trailingChunk))
-  // Return the final array
-  return result;
-};
-
-// {"hello":"world","haha":"baba"}
-
-const toObject = (data) => {
-  const result = {};
-  const arr = data.slice(1, data.length - 1);
-  let pos = 0;
-  // 0 = start
-  // 1 = key
-  // 2 = value
-  let lastPosition = 0;
-  let key;
-  for (let i = 0; i < arr.length; i++) {
-    if (pos === 0 && arr[i] === `:`) {
-      key = parse(arr.slice(lastPosition, i));
-      lastPosition = i + 1;
-      pos = 1;
-    } else if (pos === 1 && arr[i] === `,`) {
-      result[key] = parse(arr.slice(lastPosition, i));
-      lastPosition = i + 1;
-      pos = 0;
-    }
-  }
-  result[key] = parse(arr.slice(lastPosition, arr.length));
-  return result;
-};
-
 function parse(data) {
-  //data = removeJSONWhitespace(data)
-  const first = data[0];
-  if (first === '"') {
-    return toString(data);
-  } else if (first === "[") {
-    return JSON.parse(data)//toArray(data.slice(1, data.length - 1));
-  } else if (first === "{") {
-    return JSON.parse(data)//toObject(data);
-  } else if (data === "true" || data === "false") {
-    return toBoolean(data);
-  } else if (data === "null") {
-    return null;
+  const firstChar = data.charCodeAt(0) | 0
+  if (firstChar === quoteCode) {
+    return parseString(data)
+  } else if (firstChar === t_charCode) {
+    return true
+  } else if (firstChar === f_charCode) {
+    return false
+  } else if (firstChar === lbracketCode) {
+    return parseArray(data)
+  } else if (firstChar === lcbracketCode) {
+    return parseObject(data)
+  } else if (firstChar === nCode) {
+    return null
   } else {
-    return toNumber(data);
+    return parseNumber(data)
   }
 }
 
-function removeJSONWhitespace(data) {
-  let result = []
-  // The | 0 lets the optimizer know that this is (probably) an unsigned integer
-  let i = data.length | 0
-  // 0 = off
-  // 1 = on
-  // Numbers are faster in JS than bools
-  let char
-  while (i--) {
-    // Assign character to `char` variable.
-    // It helps to pre-define a variable.
-    char = data[i]
-    if (char != " ") result.unshift(char)
+function parseString(data) {
+  return data.slice(1, data.length - 1).replaceAll(escapeQuote, quote)
+}
+
+function parseNumber(data) {
+  return data * 1
+}
+
+function parseArray(data) {
+  const result = new Array()
+  if (data.length === 2) return result
+  let lastPos = 0 | 0
+  let char = 0 | 0
+  let depth = 0 | 0
+  let fdepth = 0 | 0
+  let instr = false
+  let i = 1 | 0
+  // for (; (i < data.length - 1) | 0; i++) {
+  do {
+    char = data.charCodeAt(i | 0)
+    // This ignores [ and ] if they are inside a string.
+    if (char === quoteCode && data.charCodeAt((i - 1)) !== fwd_slashCode) {
+      if (instr === true) {
+        instr = false
+      } else {
+        instr = true
+      }
+    }
+    if (instr === false) {
+      if (char === commaCode && depth === 0) {
+        //console.log('Normal chunk: ' + data.slice(lastPos + 1, i))
+        result.push(parse(data.slice((lastPos + 1) | 0, i).trim()))
+        lastPos = i
+      } else if (char === lbracketCode) depth++
+      else if (char === rbracketCode) fdepth++
+      else if (depth !== 0 | 0 && depth === fdepth) {
+        //console.log('Deep chunk: ' + data.slice(lastPos + 1, i))
+        result.push(parse(data.slice((lastPos + 1) | 0, i).trim()))
+        // Reset the depth
+        depth = 0
+        fdepth = 0
+        // Set new lastPos
+        lastPos = i
+      }
+    }
+    i++
+  } while (i < (data.length - 1) | 0)
+  //console.log('Last chunk: ' + data.slice(lastPos + 1, data.length - 1).trim())
+  result.push(parse(data.slice((lastPos + 1) | 0, (data.length - 1) | 0).trim()))
+  return result
+}
+
+function parseObject(data) {
+  //console.log('Data ' + data)
+  const len = (data.length - 1) | 0
+  const result = {}
+  let lastPos = 1 | 0
+  let key = ''
+  let instr = 0 | 0
+  let char = 0 | 0
+  let depth = 0 | 0
+  let fdepth = 0 | 0
+  for (let i = 1 | 0; i < len; i++) {
+    char = data.charCodeAt(i) | 0
+    if (char === quoteCode && data.charCodeAt(i - 1) !== fwd_slashCode)
+      instr = instr ? 0 | 0 : 1 | 0
+    else if ((instr === 0) | 0) {
+      if (char === lcbracketCode || char === lbracketCode) depth++
+      if (char === rcbracketCode || char === rbracketCode) fdepth++
+    }
+    if (depth !== 0 && depth === fdepth) {
+      //console.log(`Deep: ${data.slice(lastPos + 1, i + 1).trim()}`)
+      result[key] = parse(data.slice(lastPos + 1, i + 1).trim())
+      // Reset the depth
+      depth = 0 | 0
+      fdepth = 0 | 0
+      // Set new lastPos
+      lastPos = (i + 1) | 0
+    }
+    if (depth === 0) {
+      if (char === colonCode) {
+        //console.log(`Key: ${data.slice(lastPos + 1, i - 1).trim()}`)
+        key = data.slice(lastPos + 1, i - 1).trim()
+        lastPos = i | 0
+      } else if (char === commaCode) {
+        //console.log(`Value: ${data.slice(lastPos + 1, i).trim()}`)
+        if (i - lastPos > 0)
+          result[key] = parse(data.slice(lastPos + 1, i).trim())
+        lastPos = (i + 1) | 0
+      }
+    }
   }
-  return result.join('')
+  //console.log(`Trailing: ${data.slice(lastPos + 1, len).trim()}`)
+  if (len - lastPos > 0)
+    result[key] = parse(data.slice(lastPos + 1, len).trim())
+  return result
 }
 
 module.exports = {
   stringify: stringify,
-  parse: parse//JSON.parse,
-};
+  parse: parse,
+}

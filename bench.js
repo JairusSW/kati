@@ -1,58 +1,23 @@
-const b = require("benny");
+const b = require('benny')
 
-const Kati = require("./");
+const Kati = require('./')
 
-const Flatted = require("flatted");
-
-const Json5 = require("json5");
-
-const val = '-ha'
 const object = {
-  i1: `ha`,
-  i2: `ha`,
-  i3: `ha`,
-  i4: `ha`,
-  i5: `ha`,
-  i6: `ha`,
-  i7: `ha`,
-  i8: `ha`,
-  i9: `ha`,
-  i10: `ha`,
-  i11: `ha`,
-  i12: `ha`,
-  i13: `ha`,
-  i14: `ha`,
-  i15: `ha`,
-  i16: `ha`,
-  i17: `ha`,
-  i18: `ha`,
-  i19: `ha`,
-  i20: `ha`,
-  i21: `ha`,
-  i22: `ha`,
-  i23: `ha`,
-  i24: `ha`,
-  i25: `ha`,
-  i26: `ha`,
-  i27: `ha`,
-  i28: `ha`,
-  i29: `ha`,
-  i30: `ha`,
-  i31: `ha`,
-};
-//Try using string addition vs t
-const array = ["hello", "world"];
-const number = 3.14;
-const string = "helloworld";
+  hello: 'world',
+}
 
-const obj = `{"hello":"world"}`;
-const arr = `["hello","world"]`;
-const num = `3.14`;
-const str = `"helloworld"`;
-// NOTE: Tiny things, because its geared for small data packets in things such as WebSockets or Networking.\
-
+const array = ['hello', 'world']
+const number = 3.14
+const string = 'helloworld'
+const obj = `{"hello":"world"}`
+const arr = `["hello","world"]`
+const num = `3.14`
+const str = `"helloworld"`
+const nul = 'null'
+const bool = 'true'
+/*
 b.suite(
-  "Kati vs. JSON (Object)",
+  'Kati vs. JSON (Object)',
   b.add(`Kati Serialize`, () => {
     Kati.stringify(object)
   }),
@@ -60,17 +25,138 @@ b.suite(
   b.add(`JSON Serialize`, () => {
     JSON.stringify(object)
   }),
-  // Just focus on stringifying
-  /*b.add("Kati Parse", () => {
-    Kati.parse(obj);
+
+  b.add('Kati Parse', () => {
+    Kati.parse(obj)
   }),
 
-  b.add("JSON Parse", () => {
-    JSON.parse(obj);
-  }),*/
+  b.add('JSON Parse', () => {
+    JSON.parse(obj)
+  }),
 
   b.cycle(),
   b.complete(),
-  b.save({ file: "object", version: "1.0.0" }),
-  b.save({ file: "object", format: "chart.html" })
+  b.save({ file: 'object', version: '1.0.0' }),
+  b.save({ file: 'object', format: 'chart.html' })
 )
+*/
+b.suite(
+  'Kati vs. JSON (Array)',
+  b.add(`Kati Serialize`, () => {
+    Kati.stringify(array)
+  }),
+
+  b.add(`JSON Serialize`, () => {
+    JSON.stringify(array)
+  }),
+
+  b.add('Kati Parse', () => {
+    Kati.parse(arr)
+  }),
+
+  b.add('JSON Parse', () => {
+    JSON.parse(arr)
+  }),
+
+  b.cycle(),
+  b.complete(),
+  b.save({ file: 'array', version: '1.0.0' }),
+  b.save({ file: 'array', format: 'chart.html' })
+)
+/*
+b.suite(
+  'Kati vs. JSON (String)',
+  b.add(`Kati Serialize`, () => {
+    Kati.stringify(string)
+  }),
+
+  b.add(`JSON Serialize`, () => {
+    JSON.stringify(string)
+  }),
+
+  b.add('Kati Parse', () => {
+    Kati.parse(str)
+  }),
+
+  b.add('JSON Parse', () => {
+    JSON.parse(str)
+  }),
+
+  b.cycle(),
+  b.complete(),
+  b.save({ file: 'string', version: '1.0.0' }),
+  b.save({ file: 'string', format: 'chart.html' })
+)
+
+b.suite(
+  'Kati vs. JSON (Number)',
+  b.add(`Kati Serialize`, () => {
+    Kati.stringify(number)
+  }),
+
+  b.add(`JSON Serialize`, () => {
+    JSON.stringify(number)
+  }),
+
+  b.add('Kati Parse', () => {
+    Kati.parse(num)
+  }),
+
+  b.add('JSON Parse', () => {
+    JSON.parse(num)
+  }),
+
+  b.cycle(),
+  b.complete(),
+  b.save({ file: 'number', version: '1.0.0' }),
+  b.save({ file: 'number', format: 'chart.html' })
+)
+
+b.suite(
+  'Kati vs. JSON (Boolean)',
+  b.add(`Kati Serialize`, () => {
+    Kati.stringify(true)
+  }),
+
+  b.add(`JSON Serialize`, () => {
+    JSON.stringify(true)
+  }),
+
+  b.add('Kati Parse', () => {
+    Kati.parse(bool)
+  }),
+
+  b.add('JSON Parse', () => {
+    JSON.parse(bool)
+  }),
+
+  b.cycle(),
+  b.complete(),
+  b.save({ file: 'boolean', version: '1.0.0' }),
+  b.save({ file: 'boolean', format: 'chart.html' })
+)
+
+b.suite(
+  'Kati vs. JSON (Null)',
+  b.add(`Kati Serialize`, () => {
+    Kati.stringify(null)
+  }),
+
+  b.add(`JSON Serialize`, () => {
+    JSON.stringify(null)
+  }),
+
+  b.add('Kati Parse', () => {
+    Kati.parse(nul)
+  }),
+
+  b.add('JSON Parse', () => {
+    JSON.parse(nul)
+  }),
+
+  b.cycle(),
+  b.complete(),
+  b.save({ file: 'null', version: '1.0.0' }),
+  b.save({ file: 'null', format: 'chart.html' })
+)
+*/
