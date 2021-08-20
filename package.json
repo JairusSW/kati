@@ -1,6 +1,6 @@
 {
   "name": "kati",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Extremely fast JSON serialize and deserialize.",
   "main": "index.js",
   "author": "JairusSW",
