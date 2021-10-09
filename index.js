@@ -203,43 +203,7 @@ function parseObject(data) {
   return result
 }
 
-
-const str = 'Hello World "_"'
-
-const num = 3.14
-
-const bool = true
-
-const arr = [
-  'Hello',
-  'Dinosaur',
-  { type: 'sauropod' },
-  [3.14, ['Dinosaurs', ['Are', 'Awesome']], '🦕'],
-]
-
-const obj = {
-  hello: 'world',
-  haha: 'baba',
-  hoho: ['ha!', 'hoo', ['heh', 'rar'], arr],
-  ha: 'ba',
+module.exports = {
+  stringify: stringify,
+  parse: parse,
 }
-
-console.log(`Encode String: `, stringify(str))
-
-console.log(`Decode String: `, parse(stringify(str)))
-
-console.log(`Encode Number: `, stringify(num))
-
-console.log(`Decode Number: `, parse(stringify(num)))
-
-console.log(`Encode Boolean `, stringify(bool))
-
-console.log(`Decode Boolean `, parse(stringify(bool)))
-
-console.log(`Encode Array `, stringify(arr))
-
-console.log(`Decode Array `, stringify(parse(stringify(arr))))
-
-console.log(`Encode Object `, stringify(obj))
-
-console.log(`Decode Object `, stringify(parse(stringify(obj))))
