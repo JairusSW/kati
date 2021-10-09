@@ -1,14 +1,9 @@
 const quote = '"'
-const lbracket = '['
 const rbracket = ']'
-const rcbracket = '}'
-const lcbracket = '{'
-const trueVal = 'true'
 const comma = ','
-const falseVal = 'false'
 const nullVal = 'null'
-const escapeQuote = '\\"'
 const quoteToEscapedRegex = /\"/g
+const escapedToQuoteRegex = /\\\"/g
 const quoteCode = '"'.charCodeAt(0) | 0
 const commaCode = ','.charCodeAt(0) | 0
 const rbracketCode = ']'.charCodeAt(0) | 0
@@ -20,11 +15,6 @@ const fwd_slashCode = '/'.charCodeAt(0) | 0
 const t_charCode = 't'.charCodeAt(0) | 0
 const f_charCode = 't'.charCodeAt(0) | 0
 const nCode = 'n'.charCodeAt(0) | 0
-const WS1code = ' '.charCodeAt(0) | 0
-const WS2code = '\u0020'.charCodeAt(0) | 0
-const WS3code = '\u000A'.charCodeAt(0) | 0
-const WS4code = '\u000D'.charCodeAt(0) | 0
-const WS5code = '\u0009'.charCodeAt(0) | 0
 
 function fromString(data) {
   if (data.includes(`"`)) {
@@ -43,9 +33,9 @@ function fromArray(data) {
     return '[]'
   }
   let result = '['
-  const lastChunk = data[len | 0]
-  for (let i = 0 | 0; i < (len | 0); i++) {
-    result += stringify(data[i | 0]) + comma
+  const lastChunk = data[len]
+  for (let i = 0 | 0; i < (len); i++) {
+    result += stringify(data[i]) + comma
   }
   result += stringify(lastChunk) + rbracket
   return result
@@ -57,10 +47,10 @@ function fromObject(data) {
     return '{}'
   }
   let result = '{'
-  const lastKey = keys[(keys.length - 1) | 0]
+  const lastKey = keys[(keys.length - 1)]
   let key
   for (let i = 0 | 0; (i < keys.length - 1) | 0; i++) {
-    key = keys[i | 0]
+    key = keys[i]
     result += fromString(key) + ':' + stringify(data[key]) + ','
   }
   result += fromString(lastKey) + ':' + stringify(data[lastKey]) + '}'
@@ -84,7 +74,7 @@ function stringify(data) {
 }
 
 function isArrayish(obj) {
-  if (!obj) {
+  if (obj == null) {
     return false
   }
   return (
@@ -97,7 +87,7 @@ function isArrayish(obj) {
 // Parse
 
 function parse(data) {
-  const firstChar = data.charCodeAt(0) | 0
+  const firstChar = data.charCodeAt(0)
   if (firstChar === quoteCode) {
     return parseString(data)
   } else if (firstChar === t_charCode) {
@@ -116,7 +106,7 @@ function parse(data) {
 }
 
 function parseString(data) {
-  return data.slice(1, data.length - 1).replaceAll(escapeQuote, quote)
+  return data.slice(1, data.length - 1).replace(escapedToQuoteRegex, quote)
 }
 
 function parseNumber(data) {
@@ -134,25 +124,25 @@ function parseArray(data) {
   let i = 1 | 0
   // for (; (i < data.length - 1) | 0; i++) {
   do {
-    char = data.charCodeAt(i | 0)
+    char = data.charCodeAt(i)
     // This ignores [ and ] if they are inside a string.
     if (char === quoteCode && data.charCodeAt((i - 1)) !== fwd_slashCode) {
       if (instr === true) {
         instr = false
-      } else {
+      } else if (instr === false) {
         instr = true
       }
     }
     if (instr === false) {
       if (char === commaCode && depth === 0) {
         //console.log('Normal chunk: ' + data.slice(lastPos + 1, i))
-        result.push(parse(data.slice((lastPos + 1) | 0, i).trim()))
+        result.push(parse(data.slice((lastPos + 1), i).trim()))
         lastPos = i
       } else if (char === lbracketCode) depth++
       else if (char === rbracketCode) fdepth++
-      else if (depth !== 0 | 0 && depth === fdepth) {
+      else if (depth !== 0 && depth === fdepth) {
         //console.log('Deep chunk: ' + data.slice(lastPos + 1, i))
-        result.push(parse(data.slice((lastPos + 1) | 0, i).trim()))
+        result.push(parse(data.slice((lastPos + 1), i).trim()))
         // Reset the depth
         depth = 0
         fdepth = 0
@@ -161,9 +151,9 @@ function parseArray(data) {
       }
     }
     i++
-  } while (i < (data.length - 1) | 0)
+  } while (i < (data.length - 1))
   //console.log('Last chunk: ' + data.slice(lastPos + 1, data.length - 1).trim())
-  result.push(parse(data.slice((lastPos + 1) | 0, (data.length - 1) | 0).trim()))
+  result.push(parse(data.slice((lastPos + 1), (data.length - 1)).trim()))
   return result
 }
 
@@ -178,9 +168,9 @@ function parseObject(data) {
   let depth = 0 | 0
   let fdepth = 0 | 0
   for (let i = 1 | 0; i < len; i++) {
-    char = data.charCodeAt(i) | 0
+    char = data.charCodeAt(i)
     if (char === quoteCode && data.charCodeAt(i - 1) !== fwd_slashCode)
-      instr = instr ? 0 | 0 : 1 | 0
+      instr = !instr
     else if ((instr === 0) | 0) {
       if (char === lcbracketCode || char === lbracketCode) depth++
       if (char === rcbracketCode || char === rbracketCode) fdepth++
@@ -189,21 +179,21 @@ function parseObject(data) {
       //console.log(`Deep: ${data.slice(lastPos + 1, i + 1).trim()}`)
       result[key] = parse(data.slice(lastPos + 1, i + 1).trim())
       // Reset the depth
-      depth = 0 | 0
-      fdepth = 0 | 0
+      depth = 0
+      fdepth = 0
       // Set new lastPos
-      lastPos = (i + 1) | 0
+      lastPos = (i + 1)
     }
     if (depth === 0) {
       if (char === colonCode) {
         //console.log(`Key: ${data.slice(lastPos + 1, i - 1).trim()}`)
         key = data.slice(lastPos + 1, i - 1).trim()
-        lastPos = i | 0
+        lastPos = i
       } else if (char === commaCode) {
         //console.log(`Value: ${data.slice(lastPos + 1, i).trim()}`)
         if (i - lastPos > 0)
           result[key] = parse(data.slice(lastPos + 1, i).trim())
-        lastPos = (i + 1) | 0
+        lastPos = (i + 1)
       }
     }
   }
@@ -213,7 +203,43 @@ function parseObject(data) {
   return result
 }
 
-module.exports = {
-  stringify: stringify,
-  parse: parse,
+
+const str = 'Hello World "_"'
+
+const num = 3.14
+
+const bool = true
+
+const arr = [
+  'Hello',
+  'Dinosaur',
+  { type: 'sauropod' },
+  [3.14, ['Dinosaurs', ['Are', 'Awesome']], '🦕'],
+]
+
+const obj = {
+  hello: 'world',
+  haha: 'baba',
+  hoho: ['ha!', 'hoo', ['heh', 'rar'], arr],
+  ha: 'ba',
 }
+
+console.log(`Encode String: `, stringify(str))
+
+console.log(`Decode String: `, parse(stringify(str)))
+
+console.log(`Encode Number: `, stringify(num))
+
+console.log(`Decode Number: `, parse(stringify(num)))
+
+console.log(`Encode Boolean `, stringify(bool))
+
+console.log(`Decode Boolean `, parse(stringify(bool)))
+
+console.log(`Encode Array `, stringify(arr))
+
+console.log(`Decode Array `, stringify(parse(stringify(arr))))
+
+console.log(`Encode Object `, stringify(obj))
+
+console.log(`Decode Object `, stringify(parse(stringify(obj))))

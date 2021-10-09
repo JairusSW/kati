@@ -1,6 +1,6 @@
 const b = require('benny')
 
-const Kati = require('./')
+const kati = require('./')
 
 const object = {
   hello: 'world',
@@ -15,11 +15,11 @@ const num = `3.14`
 const str = `"helloworld"`
 const nul = 'null'
 const bool = 'true'
-/*
+
 b.suite(
   'Kati vs. JSON (Object)',
   b.add(`Kati Serialize`, () => {
-    Kati.stringify(object)
+    kati.stringify(object)
   }),
 
   b.add(`JSON Serialize`, () => {
@@ -27,7 +27,7 @@ b.suite(
   }),
 
   b.add('Kati Parse', () => {
-    Kati.parse(obj)
+    kati.parse(obj)
   }),
 
   b.add('JSON Parse', () => {
@@ -39,11 +39,11 @@ b.suite(
   b.save({ file: 'object', version: '1.0.0' }),
   b.save({ file: 'object', format: 'chart.html' })
 )
-*/
+
 b.suite(
   'Kati vs. JSON (Array)',
   b.add(`Kati Serialize`, () => {
-    Kati.stringify(array)
+    kati.stringify(array)
   }),
 
   b.add(`JSON Serialize`, () => {
@@ -51,7 +51,7 @@ b.suite(
   }),
 
   b.add('Kati Parse', () => {
-    Kati.parse(arr)
+    kati.parse(arr)
   }),
 
   b.add('JSON Parse', () => {
@@ -63,11 +63,11 @@ b.suite(
   b.save({ file: 'array', version: '1.0.0' }),
   b.save({ file: 'array', format: 'chart.html' })
 )
-/*
+
 b.suite(
   'Kati vs. JSON (String)',
   b.add(`Kati Serialize`, () => {
-    Kati.stringify(string)
+    kati.stringify(string)
   }),
 
   b.add(`JSON Serialize`, () => {
@@ -75,7 +75,7 @@ b.suite(
   }),
 
   b.add('Kati Parse', () => {
-    Kati.parse(str)
+    kati.parse(str)
   }),
 
   b.add('JSON Parse', () => {
@@ -91,7 +91,7 @@ b.suite(
 b.suite(
   'Kati vs. JSON (Number)',
   b.add(`Kati Serialize`, () => {
-    Kati.stringify(number)
+    kati.stringify(number)
   }),
 
   b.add(`JSON Serialize`, () => {
@@ -99,7 +99,7 @@ b.suite(
   }),
 
   b.add('Kati Parse', () => {
-    Kati.parse(num)
+    kati.parse(num)
   }),
 
   b.add('JSON Parse', () => {
@@ -115,7 +115,7 @@ b.suite(
 b.suite(
   'Kati vs. JSON (Boolean)',
   b.add(`Kati Serialize`, () => {
-    Kati.stringify(true)
+    kati.stringify(true)
   }),
 
   b.add(`JSON Serialize`, () => {
@@ -123,7 +123,7 @@ b.suite(
   }),
 
   b.add('Kati Parse', () => {
-    Kati.parse(bool)
+    kati.parse(bool)
   }),
 
   b.add('JSON Parse', () => {
@@ -139,7 +139,7 @@ b.suite(
 b.suite(
   'Kati vs. JSON (Null)',
   b.add(`Kati Serialize`, () => {
-    Kati.stringify(null)
+    kati.stringify(null)
   }),
 
   b.add(`JSON Serialize`, () => {
@@ -147,7 +147,7 @@ b.suite(
   }),
 
   b.add('Kati Parse', () => {
-    Kati.parse(nul)
+    kati.parse(nul)
   }),
 
   b.add('JSON Parse', () => {
@@ -159,4 +159,3 @@ b.suite(
   b.save({ file: 'null', version: '1.0.0' }),
   b.save({ file: 'null', format: 'chart.html' })
 )
-*/

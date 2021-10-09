@@ -3,3 +3,4 @@ yarn.lock
 chat.txt
 test.py
 benchmark/
+dist/
